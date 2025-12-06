@@ -12,6 +12,7 @@ function updateOrderTotal() {
 	const menuItems = document.querySelectorAll('.menu .item');
 	const totalPriceElement = document.getElementById('totalPrice');
 	const checkoutButton = document.getElementById('checkoutButton');
+
 	let totalSum = 0;
 
 	menuItems.forEach(item => {
@@ -24,16 +25,21 @@ function updateOrderTotal() {
 	totalPriceElement.textContent = `${totalSum} ₽`;
 
 	if (totalSum > 0) {
-		checkoutButton.removeAttribute('disabled');
-		
-		if (window.Telegram.WebApp.MainButton.isVisible) {
-			window.Telegram.WebApp.MainButton.setText(`Заказать на ${totalSum} ₽`);
-		}
-		else {
-			checkoutButton.setAttribute('disabled', 'disabled');
-			window.Telegram.WebApp.MainButton.hide();
-		}
-	}
+        if (checkoutButton) {
+             checkoutButton.removeAttribute('disabled');
+        }
+    } else {
+        if (checkoutButton) {
+            checkoutButton.setAttribute('disabled', 'disabled');
+        }
+    }
+    if (window.Telegram && window.Telegram.WebApp) {
+        if (totalSum > 0) {
+             window.Telegram.WebApp.MainButton.setText(`Сумма: ${totalSum} ₽`);
+        } else {
+             window.Telegram.WebApp.MainButton.hide();
+        }
+    }
 }
 
 function getOrderDetails() {
@@ -140,5 +146,4 @@ function sendOrderToBot() {
         orderSummary;
 
 	window.Telegram.WebApp.sendData(message);
-
 };
