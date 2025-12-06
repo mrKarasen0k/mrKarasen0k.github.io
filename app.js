@@ -104,11 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}
 		});
-
-		const checkoutButton = document.getElementById('checkoutButton');
-		if (checkoutButton) {
-			checkoutButton.addEventListener('click', sendOrderToBot);
-		}
 	}
 });
 
@@ -124,7 +119,7 @@ function sendOrderToBot() {
 		`${item.name} x${item.quantity} (${item.subtotal} ₽)`
     ).join('\n');
 
-	const message = `Новый заказ на сумму ${order.total} ₽:\n\n${orderSummary}`;
+	const message = `Заказ на сумму: ${order.total} ₽:\n\n${orderSummary}`;
 
 	window.Telegram.WebApp.sendData(message);
 };
