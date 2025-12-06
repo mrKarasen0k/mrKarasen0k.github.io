@@ -11,6 +11,7 @@ function getItemPrice(itemElement) {
 function updateOrderTotal() {
 	const menuItems = document.querySelectorAll('.menu .item');
 	const totalPriceElement = document.getElementById('totalPrice');
+	const checkoutButton = document.getElementById('checkoutButton');
 	let totalSum = 0;
 
 	menuItems.forEach(item => {
@@ -30,7 +31,7 @@ function updateOrderTotal() {
 		}
 		else {
 			checkoutButton.setAttribute('disabled', 'disabled');
-			windows.Telegram.WebApp.MainButton.hide();
+			window.Telegram.WebApp.MainButton.hide();
 		}
 	}
 }
@@ -139,4 +140,5 @@ function sendOrderToBot() {
         orderSummary;
 
 	window.Telegram.WebApp.sendData(message);
+
 };
