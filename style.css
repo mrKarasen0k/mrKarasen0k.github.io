@@ -1,48 +1,108 @@
 body {
-	margin: 0;
-	padding: 0;
-	font-size: 18px;
 	color: var(--tg-theme-text-color);
 	background: var(--tg-theme-bg-color);
+	margin: 0;
+	padding: 0;
+	justify-content: center;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
-	max-width: 390px;
 	width: 100%;
-	margin: 0 auto;
+	padding-top: 20px;
 }
 
-.inner {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 200px 200px 200px;
-}
-
-.img {
-	margin: 20px;
-	width: 150px;
+.menu {
+	padding: 0 20px;
 }
 
 .item {
-	text-align: center;
-	margin: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+}
+
+.details {
+	flex-grow: 1;
+	padding-right: 20px;
+}
+
+.name {
+	font-size: 1.1em;
+	font-weight: 500;
+	margin: 0 0 5px 0;
+	color: #333;
+}
+
+.description {
+	font-size: 0.9em;
+	color: #666;
+	margin: 0 0 5px 0;
+}
+
+.price {
+	font-size: 1em;
+	font-weight: 750;
+	color: #4CAF50;
+	margin: 0;
+}
+
+.quantity {
+	display: flex;
+	align-items: center;
+	border: 1px solid #ddd;
+	border-radius: 20px;
+	overflow: hidden;
+	background-color: #f7f7f7;
 }
 
 .btn {
-	display: inline-block;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	background-color: greenyellow;
-	text-transform: uppercase;
-	font-weight: 700;
-	transition: background .2s linear;
+    background-color: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.2em;
+    font-weight: 400;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.count {
+	padding: 0 15px;
+	font-size: 1em;
+	font-weight: 500;
+	color: #333
 }
 
 .btn:hover {
-	background: lightgreen;
+	background-color: #eee;
 }
 
-.usercard {
-	text-align: center;
+.total {
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+}
+
+.total-summary {
+	border-radius: 5px;
+	padding: 5px;
+	background-color: #4CAF50;
+}
+
+.checkout-btn {
+	border: none;
+	border-radius: 10px;
+	transition: backgroung-color 2s;
+	color: #000;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.checkout-btn:hover {
+	background-color: #eee;
 }
