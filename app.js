@@ -20,7 +20,7 @@ btn1.addEventListener("click", function(){
 	}
 	else {
 		tg.MainButton.setText("Вы выбрали товар 1!");
-		item = "3";
+		item = "666";
 		tg.MainButton.show();
 	}
 });
