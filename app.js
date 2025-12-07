@@ -11,6 +11,8 @@ function getItemPrice(itemElement) {
 function updateOrderTotal() {
 	const menuItems = document.querySelectorAll('.menu .item');
 	const totalPriceElement = document.getElementById('totalPrice');
+	const checkoutButton = document.getElementById('checkoutButton');
+
 	let totalSum = 0;
 
 	menuItems.forEach(item => {
@@ -23,16 +25,21 @@ function updateOrderTotal() {
 	totalPriceElement.textContent = `${totalSum} ₽`;
 
 	if (totalSum > 0) {
-		checkoutButton.removeAttribute('disabled');
-		
-		if (window.Telegram.WebApp.MainButton.isVisible) {
-			window.Telegram.WebApp.MainButton.setText(`Заказать на ${totalSum} ₽`);
-		}
-		else {
-			checkoutButton.setAttribute('disabled', 'disabled');
-			windows.Telegram.WebApp.MainButton.hide();
-		}
-	}
+        if (checkoutButton) {
+             checkoutButton.removeAttribute('disabled');
+        }
+    } else {
+        if (checkoutButton) {
+            checkoutButton.setAttribute('disabled', 'disabled');
+        }
+    }
+    if (window.Telegram && window.Telegram.WebApp) {
+        if (totalSum > 0) {
+             window.Telegram.WebApp.MainButton.setText(`Сумма: ${totalSum} ₽`);
+        } else {
+             window.Telegram.WebApp.MainButton.hide();
+        }
+    }
 }
 
 function getOrderDetails() {
@@ -114,27 +121,30 @@ function sendOrderToBot() {
 	const order = getOrderDetails();
 	const name = document.getElementById('name').value.trim();
 	const address = document.getElementById('address').value.trim();
+	const phone = document.getElementById('phone').value.trim();
+	const payment = document.getElementById('payment').value;
 
 	if (order.total === 0) {
 		window.Telegram.WebApp.showAlert('Корзина пуста!');
 		return
 	}
 
-	if (!name || !address) {
+	if (!name || !address || !phone || !payment) {
 		window.Telegram.WebApp.showAlert('Пожалуйста, заполните Ваше имя и адрес доставки.');
 		return;
 	}
 
 	const customerDetails = 
 	`Имя клиента: ${name}\n` +
-        `Адрес доставки: ${address}\n\n`;
+	`Телефон: ${phone}\n` +
+    `Адрес доставки: ${address}\n` +
+    `Способ оплаты: ${payment === 'cash' ? 'Наличными' : payment === 'card_courier' ? 'Картой курьеру' : 'Онлайн-оплата'}\n\n`;
 
 	const orderSummary = order.items.map(item =>
 		`${item.name} x${item.quantity} (${item.subtotal} ₽)`
     ).join('\n');
 
-	const message = `НОВЫЙ ЗАКАЗ\n\n` +
-        customerDetails +
+	const message = customerDetails +
         `СОСТАВ ЗАКАЗА (Сумма: ${order.total} ₽)\n` +
         orderSummary;
 
