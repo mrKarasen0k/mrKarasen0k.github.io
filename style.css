@@ -76,9 +76,10 @@ body {
 
 .total {
     display: flex;
-    justify-content: center;
-    padding-bottom: 50px;
-    padding-top: 25px;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solic #ccc;
+    font-weight: bold;
 }
 
 .toForm {
@@ -149,4 +150,5 @@ select {
     font-size: 15px;
     cursor: pointer;
     transition: background-color 0.2s;
+
 }
