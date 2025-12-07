@@ -1,22 +1,3 @@
-function toggleFormVisibility() {
-	const customerForm = document.getElementById('customerForm');
-	const toFormButton = document.getElementById('toForm');
-
-	toFormButton.addEventListener('click', () => {
-		customerForm.style.display = customerForm.style.display === 'block' ? 'none' : 'block';
-		toFormButton.textContent = customerForm.style.display === 'block' ? 'Отправить заказ' : 'Сформировать заказ';
-
-		if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.MainButton) {
-			if (customerForm.style.display === 'block') {
-				window.Telegram.WebApp.MainButton.hide();
-			} else {
-				updateOrderTotal();
-			}
-		}
-	});
-}
-
-
 function getItemPrice(itemElement) {
 	const priceElement = itemElement.querySelector('.price');
 	if (!priceElement) return 0;
@@ -30,7 +11,7 @@ function getItemPrice(itemElement) {
 function updateOrderTotal() {
 	const menuItems = document.querySelectorAll('.menu .item');
 	const totalPriceElement = document.getElementById('totalPrice');
-	const toFormButton = document.getElementById('toForm');
+	const checkoutButton = document.getElementById('checkoutButton');
 
 	let totalSum = 0;
 
@@ -43,32 +24,23 @@ function updateOrderTotal() {
 	});
 	totalPriceElement.textContent = `${totalSum} ₽`;
 
-	if (toFormButton) {
-			if (totalSum > 0) {
-				toFormButton.removeAttribute('disabled');
-			} else {
-				toFormButton.setAttribute('disabled', 'disabled');
-				const customerForm = document.getElementById('customerForm');
-				if (customerForm) {
-					customerForm.style.display = 'none';
-					toFormButton.textContent = 'Сформировать заказ';
-				}
-			}
-		}
-	
-	const customerForm = document.getElementById('customerForm');
-	const isFormVisible = customerForm && customerForm.style.display === 'block';
-
-	if (window.Telegram && window.Telegram.WebApp && !isFormVisible) {
-		if (totalSum > 0) {
-			window.Telegram.WebApp.MainButton.setText(`Сумма: ${totalSum} ₽`);
-			window.Telegram.WebApp.MainButton.show();
-		} else {
-			window.Telegram.WebApp.MainButton.hide();
-		}
-	}
+	if (totalSum > 0) {
+        if (checkoutButton) {
+             checkoutButton.removeAttribute('disabled');
+        }
+    } else {
+        if (checkoutButton) {
+            checkoutButton.setAttribute('disabled', 'disabled');
+        }
+    }
+    if (window.Telegram && window.Telegram.WebApp) {
+        if (totalSum > 0) {
+             window.Telegram.WebApp.MainButton.setText(`Сумма: ${totalSum} ₽`);
+        } else {
+             window.Telegram.WebApp.MainButton.hide();
+        }
+    }
 }
-
 
 function getOrderDetails() {
 	const menuItems = document.querySelectorAll('.menu .item');
@@ -104,26 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (window.Telegram && window.Telegram.WebApp) {
 		window.Telegram.WebApp.ready();
 
-		window.Telegram.WebApp.MainButton.setParams({
-			text: 'Сформировать заказ',
-            is_visible: false,
-		});
-
-		window.Telegram.WebApp.MainButton.onClick(() => {
-			const customerForm = document.getElementById('customerForm');
-			if (customerForm && customerForm.style.display === 'block') {
-				document.getElementById('customerForm').dispatchEvent(new Event('submit'));
-			} else {
-				document.getElementById('toForm').click();
-			}
-		});
+		window.Telegram.WebApp.MainButton.hide();
 	}
 
 	const menuContainer = document.querySelector('.container');
 	if (menuContainer) {
 		updateOrderTotal();
-
-		toggleFormVisibility();
 
 		menuContainer.addEventListener('click', (event) => {
 			const target = event.target;
@@ -190,10 +148,5 @@ function sendOrderToBot() {
         `СОСТАВ ЗАКАЗА (Сумма: ${order.total} ₽)\n` +
         orderSummary;
 
-window.Telegram.WebApp.sendData(message);
-    document.getElementById('customerForm').reset();
-    document.getElementById('customerForm').style.display = 'none';
-    document.getElementById('toForm').textContent = 'Сформировать заказ';
-    document.querySelectorAll('.count').forEach(span => span.textContent = '0');
-    updateOrderTotal();
+	window.Telegram.WebApp.sendData(message);
 };

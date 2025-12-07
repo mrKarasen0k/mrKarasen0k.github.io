@@ -123,7 +123,7 @@ textarea {
 	min-width: 80px;
 }
 
-.toForm {
+.checkout-btn {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -135,16 +135,11 @@ textarea {
     transition: background-color 0.2s;
 }
 
-.toForm:hover:not([disabled]) {
+.checkout-btn:hover:not([disabled]) {
     background-color: #0056b3;
 }
 
-.toForm:disabled {
+.checkout-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-}
-
-.customerForm {
-	display: none;
-	padding: 20px;
 }

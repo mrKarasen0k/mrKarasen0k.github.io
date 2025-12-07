@@ -40,8 +40,7 @@
 				<div class="total-price" id="totalPrice">0 ₽</div>
 			</div>
 		</div>
-	<button class="toForm" id="toForm" type="button">Сформировать заказ</button>	
-		<form id="customerForm" class="customerForm" onsubmit="return false;">
+		<form id="customerForm">
 			<h3>Детали доставки</h3>
 			<div class="form-group">
 				<label for="name">Ваше имя:</label>
@@ -66,6 +65,8 @@
 					<option value="online">Онлайн оплата</option>
 				</select>
 			</div>
+
+			<button class="checkout-btn" id="checkoutButton" disabled type="submit">Сформировать заказ</button>
 		</form>
 	</div>
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
