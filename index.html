@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,68 +7,65 @@
 	<title>Document</title>
 </head>
 <body>
-	<div class="container">
-		<div class="menu">
-			<div class="item">
-				<div class="details">
-					<div class="name">Бургер</div>
-					<div class="description">Сыр, колбаска</div>
-					<div class="price">500 ₽</div>
-				</div>
-				<div class="quantity">
-					<button class="btn minus">-</button>
-					<span class="count">0</span>
-					<button class="btn plus">+</button>
-				</div>	
-			</div>
-			<div class="item">
-				<div class="details">
-					<div class="name">Пицца</div>
-					<div class="description">Колбаска сыр</div>
-					<div class="price">350 ₽</div>
-				</div>
-				<div class="quantity">
-					<button class="btn minus">-</button>
-					<span class="count">0</span>
-					<button class="btn plus">+</button>
-				</div>
-			</div>
-		</div>
-		<div class="total">
-			<div class="total-summary">
-				<div class="total-text">Общая сумма заказа:</div>
-				<div class="total-price" id="totalPrice">0 ₽</div>
-			</div>
-		</div>
-	<button class="toForm" id="toForm" type="button">Сформировать заказ</button>	
-		<form id="customerForm" class="customerForm" onsubmit="return false;">
-			<h3>Детали доставки</h3>
-			<div class="form-group">
-				<label for="name">Ваше имя:</label>
-				<input type="text" id="name" required placeholder="Имя Фамилия">
-			</div>
-			<div class="form-group">
-				<label for="address">Адрес доставки</label>
-				<textarea id="address" required placeholder="Улица, дом, квартира"></textarea>
-			</div>
-			<div class="form-group">
-				<label for="phone">Номера телефона</label>
-				<input type="tel" id="phone" required placeholder="+7 (XXX) XXX-XX-XX">
-			</div>
-			<hr>
-			<h3>Способ оплаты</h3>
-			<div class="form-group">
-				<label for="payment">Выберите способ оплаты</label>
-				<select id="payment" required>
-					<option value="" disabled selected>-- Выберите --</option>
-					<option value="cash">Наличными при получении</option>
-					<option value="card_courier">Картой курьеру</option>
-					<option value="online">Онлайн оплата</option>
-				</select>
-			</div>
-		</form>
-	</div>
-	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="app.js"></script>
+    <div class="container">
+        <div class="menu">
+            <div class="item">
+                <div class="details">
+                    <div class="name">Бургер</div>
+                    <div class="description">Сыр, колбаса</div>
+                    <div class="price">500 ₽</div>
+                </div>
+                <div class="quantity">
+                    <button class="btn minus">-</button>
+                    <span class="count">0</span>
+                    <button class="btn plus">+</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="details">
+                    <div class="name">Пицца</div>
+                    <div class="description">Колбаска, сыр</div>
+                    <div class="price">100 ₽</div>
+                </div>
+                <div class="quantity">
+                    <button class="btn minus">-</button>
+                    <span class="count">0</span>
+                    <button class="btn plus">+</button>
+                </div>
+            </div>
+            <div class="total">
+                <div class="total-text">Общая сумма заказа</div>
+                <div class="total-price" id="totalPrice">0 ₽</div>
+            </div>
+            <button class="toForm" id="toForm" disabled type="submit">Сформировать заказ</button>
+        </div>
+        <form class="customerForm" id="customerForm">
+                <h3>Детали доставки</h3>
+                <div class="form-group">
+                    <label for="name">Ваше имя:</label>
+                    <input type="text" id="name" required placeholder="Имя Фамилия">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Номер телефона</label>
+                    <input type="tel" id="phone" required placeholder="+7 (XXX-XX-XX)">
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес доставки</label>
+                    <input type="text" id="address" required placeholder="Улица, дом, квартира">
+                </div>
+                <div class="form-group">
+                    <label for="payment">Выберите способ оплаты</label>
+                    <select id="payment" required>
+                        <option value="" disabled selected>-- Выберите --</option>
+                        <option value="cash">Наличными</option>
+                        <option value="card_courier">Картой курьеру</option>
+                        <option value="online">Онлайн оплата</option>
+                        <option value="pickup">Самовывоз</option>
+                    </select>
+                </div>
+                <button class="checkout-btn" id="checkoutButton" disabled type="submit">Перейти к оплате</button>
+            </form>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
