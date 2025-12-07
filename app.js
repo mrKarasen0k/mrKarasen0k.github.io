@@ -59,7 +59,7 @@ function updateOrderTotal() {
 	const customerForm = document.getElementById('customerForm');
 	const isFormVisible = customerForm && customerForm.style.display === 'block';
 
-	if (window.Telegram && widnow.Telegram.WebApp && !isFormVisible) {
+	if (window.Telegram && window.Telegram.WebApp && !isFormVisible) {
 		if (totalSum > 0) {
 			window.Telegram.WebApp.MainButton.setText(`Сумма: ${totalSum} ₽`);
 			window.Telegram.WebApp.MainButton.show();
