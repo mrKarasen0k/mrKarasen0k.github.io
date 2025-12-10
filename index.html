@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<title>Document</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
+<body>    <div class="container">
         <div class="menu">
-            <div class="item">
+            <div class="item" data-id="burger">
                 <div class="details">
                     <div class="name">Бургер</div>
-                    <div class="description">Сыр, колбаса</div>
+                    <div class="descriptions">Сыр, колбаса</div>
+                    <div class="price">1500 ₽</div>
+                </div>
+                <div class="quantity">
+                    <button class="btn minus">-</button>
+                    <span class="count">0</span>
+                    <button class="btn plus">+</button>
+                </div>
+            </div>
+            <div class="item" data-id="pizza">
+                <div class="details">
+                    <div class="name">Пицца</div>
+                    <div class="descriptions">Колбаса, сыр</div>
                     <div class="price">500 ₽</div>
                 </div>
                 <div class="quantity">
@@ -22,53 +32,37 @@
                     <button class="btn plus">+</button>
                 </div>
             </div>
-            <div class="item">
-                <div class="details">
-                    <div class="name">Пицца</div>
-                    <div class="description">Колбаска, сыр</div>
-                    <div class="price">100 ₽</div>
-                </div>
-                <div class="quantity">
-                    <button class="btn minus">-</button>
-                    <span class="count">0</span>
-                    <button class="btn plus">+</button>
-                </div>
+            <div class="summary">
+                <div class="summary-text">Итого:</div>
+                <span class="summary-value">0 ₽</span>
             </div>
-            <div class="total">
-                <div class="total-text">Общая сумма заказа</div>
-                <div class="total-price" id="totalPrice">0 ₽</div>
-            </div>
-            <button class="toForm" id="toForm" disabled type="submit">Сформировать заказ</button>
+            <button class="toForm">Оформить заказ</button>
         </div>
-        <form class="customerForm" id="customerForm">
-                <h3>Детали доставки</h3>
-                <div class="form-group">
-                    <label for="name">Ваше имя:</label>
-                    <input type="text" id="name" required placeholder="Имя Фамилия">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Номер телефона</label>
-                    <input type="tel" id="phone" required placeholder="+7 (XXX-XX-XX)">
-                </div>
-                <div class="form-group">
-                    <label for="address">Адрес доставки</label>
-                    <input type="text" id="address" required placeholder="Улица, дом, квартира">
-                </div>
-                <div class="form-group">
-                    <label for="payment">Выберите способ оплаты</label>
-                    <select id="payment" required>
-                        <option value="" disabled selected>-- Выберите --</option>
-                        <option value="cash">Наличными</option>
+        <div class="checkout">
+            <button class="back">←</button>
+            <h2>Доставка</h2>
+            <form class="checkout-form">
+                <label class="field">
+                    <span>Адрес доставки</span>
+                    <input type="text" class="address" placeholder="Улица, дом, квартира" required>
+                </label>
+                <label class="field">
+                    <span>Номер телефона</span>
+                    <input type="tel" class="phone" placeholder="+7 (___) ___-__-__" required>
+                </label>
+                <label class="filed">
+                    <span>Вид оплаты</span>
+                    <select name="payment" required>
+                        <option value="" disabled selected>Выберите способ</option>
                         <option value="card_courier">Картой курьеру</option>
-                        <option value="online">Онлайн оплата</option>
-                        <option value="pickup">Самовывоз</option>
+                        <option value="cash">Наличные</option>
+                        <option value="online">Онлайн</option>
                     </select>
-                </div>
-                <button class="checkout-btn" id="checkoutButton" disabled type="submit">Перейти к оплате</button>
+                </label>
+                <button type="submit" class="checkout-btn">Отправить заявку</button>
             </form>
+        </div>
     </div>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="app.js"></script>
 </body>
-
 </html>

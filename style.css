@@ -1,14 +1,17 @@
 body {
     color: var(--tg-theme-text-color);
     background-color: var(--tg-theme-bg-color);
-    margin: 0;
     padding: 0;
-    justify-content: center;
+    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.4;
 }
 
 .container {
     width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
 
 .menu {
@@ -18,84 +21,108 @@ body {
 .item {
     display: flex;
     justify-content: space-between;
+    gap: 12px;
     align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 18px 16px;
+    margin-bottom: 14px;
+    border: 1px solid #e6ebf3;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.12s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+    border-color: rgba(45, 140, 255, 0.25);
+}
+
+.details {
+    flex: 1px;
+    min-width: 0;
 }
 
 .name {
-    font-size: 1.1em;
-    font-weight: 500;
-    margin: 0 0 5px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f2a3d;
+    margin-bottom: 6px;
 }
 
-.description {
-    font-size: 0.9em;
-    color: #666;
-    margin: 0 0 5px 0;
+.descriptions {
+    font-size: 0.92rem;
+    color: #5c6a82;
+    margin-bottom: 10px;
 }
 
 .price {
-    font-size: 1em;
-    font-weight: 750;
-    color: #4CAF50;
+    font-weight: 800;
+    color: #2d8cff;
+    font-size: 1rem; 
 }
 
 .quantity {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    background-color: #f7f7f7;
+    gap: 6px;
+    background: #f5f7fb;
+    border: 1px solid #dce2ec;
+    border-radius: 999px;
+    padding: 6px 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
-
+  
 .btn {
-    background-color: transparent;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     border: none;
-    color: #333;
-    font-size: 1.2em;
-    font-weight: 400;
-    width: 35px;
-    height: 35px;
+    background: #2d8cff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.1s;
+    transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 4px 10px rgba(45,140,255,0.35);
+}
+  
+.btn:active {
+    transform: scale(0.96);
+}
+  
+.btn:hover {
+    background: #1f79e5;
 }
 
-.btn:hover {
-    background-color: #eee;
+.btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .count {
-    padding: 0 15px;
-    font-size: 1em;
-    font-weight: 500;
-    color: #333;
+    min-width: 28px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e2a3b;
 }
 
-.total {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-top: 1px solic #ccc;
-    font-weight: bold;
-}
-
-.toForm {
+.toForm,
+.checkout-btn {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #ff7a00;
+    color: #fff;
     border: none;
-    border-radius: 5px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
-
-.toForm:hover:not([disabled]) {
-    background-color: #0056b3;
+  
+.toForm,
+.checkout-btn:hover {
+    background: #ff8f26;
 }
 
 .toForm:disabled {
@@ -103,52 +130,101 @@ body {
     cursor: not-allowed;
 }
 
-.customerForm {
-    text-align: center;
-    transform: translate(0, 50%);
+.checkout {
+    display: none;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px 16px 32px;
 }
 
-label {
-    display: block;
-    padding-top: 10px;
-    margin-bottom: 5px;
-    color: #333;
-    font-size: 15px;
-    font-weight: bold;
+.checkout h2 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+    color: #1f2a3d;
 }
 
-input[type="text"],
-textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-textarea {
-    resize: vertical;
-    min-width: 100px;
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.95rem;
+    color: #1f2a3d;
 }
 
-.oplata {
-    width: 100%;
-}
-
-select {
-    border: 1px solid #333;
-    border-radius: 5px;
-    padding: 5px 15px;
-}
-
-.checkout-btn {
-    padding: 15px;
-    margin: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+.field input,
+.field select {
+    padding: 12px;
+    border: 1px solid #dce2ec;
     border-radius: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
 
+.field select {
+    appearance: none;
+    background: linear-gradient(135deg, #f7f9fc, #eef3fb);
+    padding-right: 42px;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    background-repeat: no-repeat, no-repeat;
+    background-position: right 14px center, 0 0;
+    background-size: 16px 10px, 100% 100%;
+}
+
+.field select:hover {
+    border-color: #c6d4eb;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: #2d8cff;
+    box-shadow: 0 0 0 3px rgba(45, 140, 255, 0.15);
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e4ecf8, #cfd9e8);
+    color: #1f2a3d;
+    font-size: 22px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.back:hover {
+    background: linear-gradient(135deg, #d8e3f3, #c3d0e4);
+}
+
+.back:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-value {
+    color: #2d8cff;
+    font-size: 1.02rem;
+}
+
+.summary {
+    font-weight: 700;
 }
