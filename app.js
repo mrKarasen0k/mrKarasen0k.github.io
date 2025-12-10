@@ -58,22 +58,16 @@ function collectCartItems() {
         .filter(Boolean);
 }
 
-// Отправляем заказ в Telegram либо логируем в консоль вне Telegram
+// Отправляем заказ в Telegram; при ошибке показываем алерт
 function sendCartToBot(payload) {
-    const webApp = window.Telegram && window.Telegram.WebApp;
-    if (webApp && typeof webApp.sendData === 'function') {
-        try {
-            // Лёгкая вибрация, если доступна
-            webApp.HapticFeedback?.impactOccurred?.('light');
-            webApp.sendData(JSON.stringify(payload));
-            alert('Заявка отправлена в бот');
-        } catch (err) {
-            console.error('Не удалось отправить заявку', err);
-            alert('Ошибка отправки. Попробуйте ещё раз.');
-        }
-    } else {
-        console.log('Данные для бота:', payload);
-        alert('Вы не в Telegram. Данные выведены в консоль.');
+    const webApp = window.Telegram?.WebApp;
+    try {
+        // Лёгкая вибрация, если доступна
+        webApp?.HapticFeedback?.impactOccurred?.('light');
+        webApp?.sendData(JSON.stringify(payload));
+        alert('Заявка отправлена в бот');
+    } catch (err) {
+        alert('Ошибка отправки. Проверьте Telegram.WebApp.sendData.');
     }
 }
 
