@@ -73,6 +73,17 @@ const scoreEl = document.getElementById('score');
 // Инициализация
 totalQEl.textContent = questions.length;
 
+// Инициализация Telegram WebApp
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    console.log('Telegram WebApp инициализирован');
+    console.log('Версия WebApp:', window.Telegram.WebApp.version);
+    console.log('Платформа:', window.Telegram.WebApp.platform);
+} else {
+    console.warn('Telegram WebApp API не доступен. Приложение запущено не в Telegram.');
+}
+
 startBtn.addEventListener('click', () => {
     startScreen.classList.remove('active');
     startScreen.classList.add('hidden');
@@ -172,17 +183,54 @@ function sendResultsToBot() {
         timestamp: new Date().toISOString()
     };
     
+    console.log('Подготовка к отправке результатов:', results);
+    
     // Проверяем, запущено ли приложение в Telegram WebApp
     if (window.Telegram && window.Telegram.WebApp) {
         try {
-            window.Telegram.WebApp.sendData(JSON.stringify(results));
-            console.log('Результаты отправлены в бот');
+            const dataString = JSON.stringify(results);
+            console.log('Отправка данных в бот:', dataString);
+            
+            // Отправляем данные через Telegram WebApp API
+            window.Telegram.WebApp.sendData(dataString);
+            
+            console.log('✅ Данные успешно отправлены в бот через sendData()');
+            
+            // Показываем уведомление пользователю
+            if (window.Telegram.WebApp.showAlert) {
+                window.Telegram.WebApp.showAlert('Результаты отправлены в бот!');
+            }
+            
+            // Также пробуем через postEvent (альтернативный способ)
+            if (window.Telegram.WebApp.postEvent) {
+                try {
+                    window.Telegram.WebApp.postEvent('web_app_data_send', { data: dataString });
+                    console.log('✅ Данные также отправлены через postEvent()');
+                } catch (e) {
+                    console.log('postEvent не доступен или произошла ошибка:', e);
+                }
+            }
+            
         } catch (error) {
-            console.error('Ошибка при отправке данных в бот:', error);
+            console.error('❌ Ошибка при отправке данных в бот:', error);
+            console.error('Детали ошибки:', {
+                name: error.name,
+                message: error.message,
+                stack: error.stack
+            });
+            
+            // Показываем ошибку пользователю
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.showAlert) {
+                window.Telegram.WebApp.showAlert('Ошибка при отправке результатов: ' + error.message);
+            }
         }
     } else {
         // Если не в Telegram, выводим в консоль для отладки
-        console.log('Результаты теста:', results);
-        console.log('Приложение не запущено в Telegram WebApp');
+        console.warn('⚠️ Приложение не запущено в Telegram WebApp');
+        console.log('Результаты теста (для отладки):', results);
+        console.log('Для отправки данных откройте приложение через Telegram бота');
+        
+        // Показываем данные на экране для отладки
+        alert('Результаты: ' + score + ' из ' + questions.length + '\n\nОткройте приложение через Telegram бота для отправки данных.');
     }
 }
