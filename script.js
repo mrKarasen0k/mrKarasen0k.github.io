@@ -54,6 +54,7 @@ const questions = [
 
 let currentQuestion = 0;
 let score = 0;
+let userAnswers = []; // Массив для хранения ответов пользователя
 
 const startBtn = document.getElementById('start-btn');
 const startScreen = document.getElementById('start-screen');
@@ -110,6 +111,15 @@ function checkAnswer(userAnswer) {
         score++;
     }
     
+    // Сохраняем ответ пользователя
+    userAnswers.push({
+        question: q.question,
+        userAnswer: userAnswer,
+        correctAnswer: q.answer,
+        isCorrect: isCorrect,
+        explanation: q.explanation
+    });
+    
     // Показываем объяснение
     explanationText.textContent = q.explanation;
     explanationText.style.display = 'block';
@@ -133,6 +143,7 @@ nextBtn.addEventListener('click', () => {
 restartBtn.addEventListener('click', () => {
     currentQuestion = 0;
     score = 0;
+    userAnswers = [];
     resultScreen.classList.remove('active');
     resultScreen.classList.add('hidden');
     quizScreen.classList.remove('hidden');
@@ -146,4 +157,32 @@ function showResults() {
     resultScreen.classList.remove('hidden');
     resultScreen.classList.add('active');
     scoreEl.textContent = `${score} из ${questions.length}`;
+    
+    // Отправляем данные в бот
+    sendResultsToBot();
+}
+
+function sendResultsToBot() {
+    const results = {
+        type: 'quiz_results',
+        score: score,
+        totalQuestions: questions.length,
+        percentage: Math.round((score / questions.length) * 100),
+        answers: userAnswers,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Проверяем, запущено ли приложение в Telegram WebApp
+    if (window.Telegram && window.Telegram.WebApp) {
+        try {
+            window.Telegram.WebApp.sendData(JSON.stringify(results));
+            console.log('Результаты отправлены в бот');
+        } catch (error) {
+            console.error('Ошибка при отправке данных в бот:', error);
+        }
+    } else {
+        // Если не в Telegram, выводим в консоль для отладки
+        console.log('Результаты теста:', results);
+        console.log('Приложение не запущено в Telegram WebApp');
+    }
 }
