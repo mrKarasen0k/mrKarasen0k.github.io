@@ -69,7 +69,8 @@ const falseBtn = document.getElementById('false-btn');
 const nextBtn = document.getElementById('next-btn');
 const restartBtn = document.getElementById('restart-btn');
 const scoreEl = document.getElementById('score');
-
+const tg = window.Telegram.WebApp;
+tg.expand();
 // Инициализация
 totalQEl.textContent = questions.length;
 
@@ -192,7 +193,7 @@ function sendResultsToBot() {
             console.log('Отправка данных в бот:', dataString);
             
             // Отправляем данные через Telegram WebApp API
-            window.Telegram.WebApp.sendData(dataString);
+            tg.sendData(dataString);
             
             console.log('✅ Данные успешно отправлены в бот через sendData()');
             
