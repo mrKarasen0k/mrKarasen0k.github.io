@@ -69,21 +69,29 @@ const falseBtn = document.getElementById('false-btn');
 const nextBtn = document.getElementById('next-btn');
 const restartBtn = document.getElementById('restart-btn');
 const scoreEl = document.getElementById('score');
-const tg = window.Telegram.WebApp;
-tg.expand();
-// Инициализация
-totalQEl.textContent = questions.length;
 
 // Инициализация Telegram WebApp
+let tg;
 if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
+    tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
     console.log('Telegram WebApp инициализирован');
-    console.log('Версия WebApp:', window.Telegram.WebApp.version);
-    console.log('Платформа:', window.Telegram.WebApp.platform);
+    console.log('Версия WebApp:', tg.version);
+    console.log('Платформа:', tg.platform);
 } else {
     console.warn('Telegram WebApp API не доступен. Приложение запущено не в Telegram.');
+    // Создаем заглушку для отладки вне Telegram
+    tg = {
+        sendData: (data) => console.log('Отладка - данные для отправки:', data),
+        close: () => console.log('Отладка - закрытие приложения'),
+        expand: () => {},
+        ready: () => {}
+    };
 }
+
+// Инициализация
+totalQEl.textContent = questions.length;
 
 startBtn.addEventListener('click', () => {
     startScreen.classList.remove('active');
@@ -184,54 +192,21 @@ function sendResultsToBot() {
         timestamp: new Date().toISOString()
     };
     
-    console.log('Подготовка к отправке результатов:', results);
-    
-    // Проверяем, запущено ли приложение в Telegram WebApp
-    if (window.Telegram && window.Telegram.WebApp) {
-        try {
-            const dataString = JSON.stringify(results);
-            console.log('Отправка данных в бот:', dataString);
-            
-            // Отправляем данные через Telegram WebApp API
-            tg.sendData(dataString);
-            
-            console.log('✅ Данные успешно отправлены в бот через sendData()');
-            
-            // Показываем уведомление пользователю
-            if (window.Telegram.WebApp.showAlert) {
-                window.Telegram.WebApp.showAlert('Результаты отправлены в бот!');
-            }
-            
-            // Также пробуем через postEvent (альтернативный способ)
-            if (window.Telegram.WebApp.postEvent) {
-                try {
-                    window.Telegram.WebApp.postEvent('web_app_data_send', { data: dataString });
-                    console.log('✅ Данные также отправлены через postEvent()');
-                } catch (e) {
-                    console.log('postEvent не доступен или произошла ошибка:', e);
-                }
-            }
-            
-        } catch (error) {
-            console.error('❌ Ошибка при отправке данных в бот:', error);
-            console.error('Детали ошибки:', {
-                name: error.name,
-                message: error.message,
-                stack: error.stack
-            });
-            
-            // Показываем ошибку пользователю
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.showAlert) {
-                window.Telegram.WebApp.showAlert('Ошибка при отправке результатов: ' + error.message);
-            }
-        }
-    } else {
-        // Если не в Telegram, выводим в консоль для отладки
-        console.warn('⚠️ Приложение не запущено в Telegram WebApp');
-        console.log('Результаты теста (для отладки):', results);
-        console.log('Для отправки данных откройте приложение через Telegram бота');
+    try {
+        const dataString = JSON.stringify(results);
+        console.log('Отправка результатов в бот:', results);
+        tg.sendData(dataString);
+        console.log('✅ Данные успешно отправлены в бот');
         
-        // Показываем данные на экране для отладки
-        alert('Результаты: ' + score + ' из ' + questions.length + '\n\nОткройте приложение через Telegram бота для отправки данных.');
+        // Закрываем приложение после отправки данных
+        setTimeout(() => {
+            tg.close();
+        }, 1000);
+    } catch (error) {
+        console.error('❌ Ошибка при отправке данных:', error);
+        // Показываем ошибку пользователю, если доступно
+        if (tg.showAlert) {
+            tg.showAlert('Ошибка при отправке результатов: ' + error.message);
+        }
     }
 }
